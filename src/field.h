@@ -6,19 +6,16 @@ class Field
 {
 public:
     Field();
-    Field(QLineEdit *lineEdit, char row, int column);
+    Field(QLineEdit *lineEdit);
     void ConfigureField();
     void SetValue(int value);
     int GetValue();
     void ChangeColor();
     void SetToFixed();
-    char GetRow();
-    int GetColumn();
+    void sapo();
 
 private:
     QLineEdit *lineEdit;
-    char row;
-    int column;
 };
 
 #endif // FIELD_H

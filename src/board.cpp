@@ -1,5 +1,10 @@
 #include "board.h"
 
+Board::Board()
+{
+
+}
+
 Board::Board(QLineEdit *line_edit_A1, QLineEdit *line_edit_A2, QLineEdit *line_edit_A3, QLineEdit *line_edit_A4,
              QLineEdit *line_edit_A5, QLineEdit *line_edit_A6, QLineEdit *line_edit_A7, QLineEdit *line_edit_A8,
              QLineEdit *line_edit_A9, QLineEdit *line_edit_B1, QLineEdit *line_edit_B2, QLineEdit *line_edit_B3,
@@ -22,93 +27,117 @@ Board::Board(QLineEdit *line_edit_A1, QLineEdit *line_edit_A2, QLineEdit *line_e
              QLineEdit *line_edit_I5, QLineEdit *line_edit_I6, QLineEdit *line_edit_I7, QLineEdit *line_edit_I8,
              QLineEdit *line_edit_I9)
 {
-    field_A1 = Field(line_edit_A1, 'A', 1);
-    field_A2 = Field(line_edit_A2, 'A', 2);
-    field_A3 = Field(line_edit_A3, 'A', 3);
-    field_A4 = Field(line_edit_A4, 'A', 4);
-    field_A5 = Field(line_edit_A5, 'A', 5);
-    field_A6 = Field(line_edit_A6, 'A', 6);
-    field_A7 = Field(line_edit_A7, 'A', 7);
-    field_A8 = Field(line_edit_A8, 'A', 8);
-    field_A9 = Field(line_edit_A9, 'A', 9);
+    fields[0][0] = Field(line_edit_A1);
+    fields[0][1] = Field(line_edit_A2);
+    fields[0][2] = Field(line_edit_A3);
+    fields[0][3] = Field(line_edit_A4);
+    fields[0][4] = Field(line_edit_A5);
+    fields[0][5] = Field(line_edit_A6);
+    fields[0][6] = Field(line_edit_A7);
+    fields[0][7] = Field(line_edit_A8);
+    fields[0][8] = Field(line_edit_A9);
 
-    field_B1 = Field(line_edit_B1, 'B', 1);
-    field_B2 = Field(line_edit_B2, 'B', 2);
-    field_B3 = Field(line_edit_B3, 'B', 3);
-    field_B4 = Field(line_edit_B4, 'B', 4);
-    field_B5 = Field(line_edit_B5, 'B', 5);
-    field_B6 = Field(line_edit_B6, 'B', 6);
-    field_B7 = Field(line_edit_B7, 'B', 7);
-    field_B8 = Field(line_edit_B8, 'B', 8);
-    field_B9 = Field(line_edit_B9, 'B', 9);
+    fields[1][0] = Field(line_edit_B1);
+    fields[1][1] = Field(line_edit_B2);
+    fields[1][2] = Field(line_edit_B3);
+    fields[1][3] = Field(line_edit_B4);
+    fields[1][4] = Field(line_edit_B5);
+    fields[1][5] = Field(line_edit_B6);
+    fields[1][6] = Field(line_edit_B7);
+    fields[1][7] = Field(line_edit_B8);
+    fields[1][8] = Field(line_edit_B9);
 
-    field_C1 = Field(line_edit_C1, 'C', 1);
-    field_C2 = Field(line_edit_C2, 'C', 2);
-    field_C3 = Field(line_edit_C3, 'C', 3);
-    field_C4 = Field(line_edit_C4, 'C', 4);
-    field_C5 = Field(line_edit_C5, 'C', 5);
-    field_C6 = Field(line_edit_C6, 'C', 6);
-    field_C7 = Field(line_edit_C7, 'C', 7);
-    field_C8 = Field(line_edit_C8, 'C', 8);
-    field_C9 = Field(line_edit_C9, 'C', 9);
+    fields[2][0] = Field(line_edit_C1);
+    fields[2][1] = Field(line_edit_C2);
+    fields[2][2] = Field(line_edit_C3);
+    fields[2][3] = Field(line_edit_C4);
+    fields[2][4] = Field(line_edit_C5);
+    fields[2][5] = Field(line_edit_C6);
+    fields[2][6] = Field(line_edit_C7);
+    fields[2][7] = Field(line_edit_C8);
+    fields[2][8] = Field(line_edit_C9);
 
-    field_D1 = Field(line_edit_D1, 'D', 1);
-    field_D2 = Field(line_edit_D2, 'D', 2);
-    field_D3 = Field(line_edit_D3, 'D', 3);
-    field_D4 = Field(line_edit_D4, 'D', 4);
-    field_D5 = Field(line_edit_D5, 'D', 5);
-    field_D6 = Field(line_edit_D6, 'D', 6);
-    field_D7 = Field(line_edit_D7, 'D', 7);
-    field_D8 = Field(line_edit_D8, 'D', 8);
-    field_D9 = Field(line_edit_D9, 'D', 9);
+    fields[3][0] = Field(line_edit_D1);
+    fields[3][1] = Field(line_edit_D2);
+    fields[3][2] = Field(line_edit_D3);
+    fields[3][3] = Field(line_edit_D4);
+    fields[3][4] = Field(line_edit_D5);
+    fields[3][5] = Field(line_edit_D6);
+    fields[3][6] = Field(line_edit_D7);
+    fields[3][7] = Field(line_edit_D8);
+    fields[3][8] = Field(line_edit_D9);
 
-    field_E1 = Field(line_edit_E1, 'E', 1);
-    field_E2 = Field(line_edit_E2, 'E', 2);
-    field_E3 = Field(line_edit_E3, 'E', 3);
-    field_E4 = Field(line_edit_E4, 'E', 4);
-    field_E5 = Field(line_edit_E5, 'E', 5);
-    field_E6 = Field(line_edit_E6, 'E', 6);
-    field_E7 = Field(line_edit_E7, 'E', 7);
-    field_E8 = Field(line_edit_E8, 'E', 8);
-    field_E9 = Field(line_edit_E9, 'E', 9);
+    fields[4][0] = Field(line_edit_E1);
+    fields[4][1] = Field(line_edit_E2);
+    fields[4][2] = Field(line_edit_E3);
+    fields[4][3] = Field(line_edit_E4);
+    fields[4][4] = Field(line_edit_E5);
+    fields[4][5] = Field(line_edit_E6);
+    fields[4][6] = Field(line_edit_E7);
+    fields[4][7] = Field(line_edit_E8);
+    fields[4][8] = Field(line_edit_E9);
 
-    field_F1 = Field(line_edit_F1, 'F', 1);
-    field_F2 = Field(line_edit_F2, 'F', 2);
-    field_F3 = Field(line_edit_F3, 'F', 3);
-    field_F4 = Field(line_edit_F4, 'F', 4);
-    field_F5 = Field(line_edit_F5, 'F', 5);
-    field_F6 = Field(line_edit_F6, 'F', 6);
-    field_F7 = Field(line_edit_F7, 'F', 7);
-    field_F8 = Field(line_edit_F8, 'F', 8);
-    field_F9 = Field(line_edit_F9, 'F', 9);
+    fields[5][0] = Field(line_edit_F1);
+    fields[5][1] = Field(line_edit_F2);
+    fields[5][2] = Field(line_edit_F3);
+    fields[5][3] = Field(line_edit_F4);
+    fields[5][4] = Field(line_edit_F5);
+    fields[5][5] = Field(line_edit_F6);
+    fields[5][6] = Field(line_edit_F7);
+    fields[5][7] = Field(line_edit_F8);
+    fields[5][8] = Field(line_edit_F9);
 
-    field_G1 = Field(line_edit_G1, 'G', 1);
-    field_G2 = Field(line_edit_G2, 'G', 2);
-    field_G3 = Field(line_edit_G3, 'G', 3);
-    field_G4 = Field(line_edit_G4, 'G', 4);
-    field_G5 = Field(line_edit_G5, 'G', 5);
-    field_G6 = Field(line_edit_G6, 'G', 6);
-    field_G7 = Field(line_edit_G7, 'G', 7);
-    field_G8 = Field(line_edit_G8, 'G', 8);
-    field_G9 = Field(line_edit_G9, 'G', 9);
+    fields[6][0] = Field(line_edit_G1);
+    fields[6][1] = Field(line_edit_G2);
+    fields[6][2] = Field(line_edit_G3);
+    fields[6][3] = Field(line_edit_G4);
+    fields[6][4] = Field(line_edit_G5);
+    fields[6][5] = Field(line_edit_G6);
+    fields[6][6] = Field(line_edit_G7);
+    fields[6][7] = Field(line_edit_G8);
+    fields[6][8] = Field(line_edit_G9);
 
-    field_H1 = Field(line_edit_H1, 'H', 1);
-    field_H2 = Field(line_edit_H2, 'H', 2);
-    field_H3 = Field(line_edit_H3, 'H', 3);
-    field_H4 = Field(line_edit_H4, 'H', 4);
-    field_H5 = Field(line_edit_H5, 'H', 5);
-    field_H6 = Field(line_edit_H6, 'H', 6);
-    field_H7 = Field(line_edit_H7, 'H', 7);
-    field_H8 = Field(line_edit_H8, 'H', 8);
-    field_H9 = Field(line_edit_H9, 'H', 9);
+    fields[7][0] = Field(line_edit_H1);
+    fields[7][1] = Field(line_edit_H2);
+    fields[7][2] = Field(line_edit_H3);
+    fields[7][3] = Field(line_edit_H4);
+    fields[7][4] = Field(line_edit_H5);
+    fields[7][5] = Field(line_edit_H6);
+    fields[7][6] = Field(line_edit_H7);
+    fields[7][7] = Field(line_edit_H8);
+    fields[7][8] = Field(line_edit_H9);
 
-    field_I1 = Field(line_edit_I1, 'I', 1);
-    field_I2 = Field(line_edit_I2, 'I', 2);
-    field_I3 = Field(line_edit_I3, 'I', 3);
-    field_I4 = Field(line_edit_I4, 'I', 4);
-    field_I5 = Field(line_edit_I5, 'I', 5);
-    field_I6 = Field(line_edit_I6, 'I', 6);
-    field_I7 = Field(line_edit_I7, 'I', 7);
-    field_I8 = Field(line_edit_I8, 'I', 8);
-    field_I9 = Field(line_edit_I9, 'I', 9);
+    fields[8][0] = Field(line_edit_I1);
+    fields[8][1] = Field(line_edit_I2);
+    fields[8][2] = Field(line_edit_I3);
+    fields[8][3] = Field(line_edit_I4);
+    fields[8][4] = Field(line_edit_I5);
+    fields[8][5] = Field(line_edit_I6);
+    fields[8][6] = Field(line_edit_I7);
+    fields[8][7] = Field(line_edit_I8);
+    fields[8][8] = Field(line_edit_I9);
 }
+
+void Board::CheckBoardSameValues(int value, int row, int column)
+{
+    if(value == 0)
+    {
+        fields[row][column].sapo();
+        return;
+    }
+    // Check row
+    for(int i = 0; i < 9; i++)
+    {
+        if(column == i)
+        {
+            continue;
+        }
+
+        if(fields[row][i].GetValue() == value)
+        {
+            fields[row][i].ChangeColor();
+            fields[row][column].ChangeColor();
+        }
+    }
+}
+

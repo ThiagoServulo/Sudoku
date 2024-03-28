@@ -1,6 +1,7 @@
 #ifndef SUDOKUWINDOW_H
 #define SUDOKUWINDOW_H
 
+#include "src/board.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -20,5 +21,6 @@ private slots:
 
 private:
     Ui::SudokuWindow *ui;
+    Board board;
 };
 #endif // SUDOKUWINDOW_H

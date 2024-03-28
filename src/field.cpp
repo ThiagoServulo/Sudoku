@@ -7,11 +7,9 @@ Field::Field()
 
 }
 
-Field::Field(QLineEdit *lineEdit, char row, int column)
+Field::Field(QLineEdit *lineEdit)
 {
     this->lineEdit = lineEdit;
-    this->row = row;
-    this->column = column;
     ConfigureField();
 }
 
@@ -32,9 +30,6 @@ void Field::ConfigureField()
     QFont font("Arial", 12);
     font.setBold(true);
     lineEdit->setFont(font);
-
-    ChangeColor();
-    //SetToFixed();
 }
 
 void Field::SetValue(int value)
@@ -50,8 +45,8 @@ int Field::GetValue()
 void Field::ChangeColor()
 {
     //lineEdit->setStyleSheet("QLineEdit { background-color: rgb(173, 216, 253); }");
-//    lineEdit->setStyleSheet("QLineEdit { background-color: rgb(47, 159, 242); }");
-    lineEdit->setStyleSheet("QLineEdit { background-color: rgb(178, 178, 178); }");
+    lineEdit->setStyleSheet("QLineEdit { background-color: rgb(47, 159, 242); }");
+    //lineEdit->setStyleSheet("QLineEdit { background-color: rgb(178, 178, 178); }");
 }
 
 void Field::SetToFixed()
@@ -61,12 +56,7 @@ void Field::SetToFixed()
     lineEdit->setStyleSheet("QLineEdit { background-color: rgb(178, 178, 178); }");
 }
 
-char Field::GetRow()
+void Field::sapo()
 {
-    return row;
-}
-
-int Field::GetColumn()
-{
-    return column;
+    qDebug() << lineEdit->styleSheet();
 }
