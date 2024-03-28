@@ -2,6 +2,11 @@
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 
+Field::Field()
+{
+
+}
+
 Field::Field(QLineEdit *lineEdit, char row, int column)
 {
     this->lineEdit = lineEdit;

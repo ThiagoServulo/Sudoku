@@ -5,6 +5,7 @@
 class Field
 {
 public:
+    Field();
     Field(QLineEdit *lineEdit, char row, int column);
     void ConfigureField();
     void SetValue(int value);
