@@ -10,10 +10,12 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
+    src/board.cpp \
     src/field.cpp \
     sudokuwindow.cpp
 
 HEADERS += \
+    src/board.h \
     src/field.h \
     sudokuwindow.h
 

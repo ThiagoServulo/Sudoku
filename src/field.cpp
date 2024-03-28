@@ -2,25 +2,28 @@
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 
-Field::Field(QLineEdit *line_edit)
+Field::Field(QLineEdit *lineEdit, char row, int column)
 {
-    lineEdit = line_edit;
+    this->lineEdit = lineEdit;
+    this->row = row;
+    this->column = column;
     ConfigureField();
 }
 
 void Field::ConfigureField()
 {
-    //lineEdit->installEventFilter(this);
-    //lineEdit->installEventFilter(this);
-
-
+    // Create regex
     QRegularExpression regex("^[1-9]$");
     QRegularExpressionValidator *validator = new QRegularExpressionValidator(regex, lineEdit);
     lineEdit->setValidator(validator);
 
+    // Set alignment
     lineEdit->setAlignment(Qt::AlignCenter);
+
+    // Set cursos
     lineEdit->setCursor(Qt::ArrowCursor);
 
+    // Set font
     QFont font("Arial", 12);
     font.setBold(true);
     lineEdit->setFont(font);
@@ -51,4 +54,14 @@ void Field::SetToFixed()
     SetValue(5);
     lineEdit->setEnabled(false);
     lineEdit->setStyleSheet("QLineEdit { background-color: rgb(178, 178, 178); }");
+}
+
+char Field::GetRow()
+{
+    return row;
+}
+
+int Field::GetColumn()
+{
+    return column;
 }
