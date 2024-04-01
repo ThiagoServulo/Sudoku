@@ -33,4 +33,3 @@ void SudokuWindow::on_lineEdit_A1_textChanged(const QString &arg1)
 {
     board.CheckBoardSameValues(arg1.toInt(), 0, 0);
 }
-

@@ -16,6 +16,7 @@ public:
 
 private:
     QLineEdit *lineEdit;
+    int value;
 };
 
 #endif // FIELD_H
