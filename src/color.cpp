@@ -2,15 +2,28 @@
 
 Color::Color()
 {
+    initial = {255, 255, 255};
     fixed = {178, 178, 178};
-        /*
-    initial = ;
-    fixed = "QLineEdit { background-color: rgb(178, 178, 178); }";
-    initialHighlighted;
-    fixedHighlighted;    */
+    initialHighlighted = {173, 216, 253};
+    fixedHighlighted = {47, 159, 242};
 }
 
 Rgb Color::GetFixedColor()
 {
     return fixed;
+}
+
+Rgb Color::GetInitialColor()
+{
+    return initial;
+}
+
+Rgb Color::GetInitialHighlightedColor()
+{
+    return initialHighlighted;
+}
+
+Rgb Color::GetFixedHighlightedColor()
+{
+    return fixedHighlighted;
 }

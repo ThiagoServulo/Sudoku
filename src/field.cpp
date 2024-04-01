@@ -37,44 +37,39 @@ void Field::ConfigureField()
 void Field::SetValue(int value)
 {
     this->value = value;
-    lineEdit->setText(QString::number(value));
+
+    QString valueStr = (value == 0) ? "" : QString::number(value);
+    lineEdit->setText(valueStr);
 }
 
 int Field::GetValue()
 {
-    return lineEdit->text().toInt();
-    //return value;
+    //return lineEdit->text().toInt();
+    return value;
 }
 
-void Field::ChangeColor()
+void Field::HighlightField()
 {
-    //lineEdit->setStyleSheet("QLineEdit { background-color: rgb(173, 216, 253); }");
-    //lineEdit->setStyleSheet("QLineEdit { background-color: rgb(47, 159, 242); }");
-    lineEdit->setStyleSheet("QLineEdit { background-color: rgb(178, 178, 178); }");
+    Color color;
+    Rgb colorRgb = lineEdit->isEnabled() ? color.GetInitialHighlightedColor() :
+                       color.GetFixedHighlightedColor();
+
+    QString backgroundColor = QString("rgb(%1, %2, %3)").arg(colorRgb.red).arg(colorRgb.green).arg(colorRgb.blue);
+    lineEdit->setStyleSheet(QString("QLineEdit { background-color: %1; }").arg(backgroundColor));
 }
 
 void Field::SetToFixed()
 {
     SetValue(5);
     lineEdit->setEnabled(false);
-    lineEdit->setStyleSheet("QLineEdit { background-color: rgb(178, 178, 178); }");
 }
 
-void Field::sapo()
+void Field::OvershadowField()
 {
-    //qDebug() << lineEdit->styleSheet().;
-
-    //QColor backgroundColor = lineEdit->palette().color(QPalette::Base);
-
     Color color;
-    Rgb colorRgb = color.GetFixedColor();
+    Rgb colorRgb = lineEdit->isEnabled() ? color.GetInitialColor() :
+                       color.GetFixedColor();
 
-    // Extraindo os componentes RGB
-    int red = colorRgb.red;
-    int green = colorRgb.green;
-    int blue = colorRgb.blue;
-
-    qDebug() << "Red: " << red;
-    qDebug() << "Green: " << green;
-    qDebug() << "Blue: " << blue;
+    QString backgroundColor = QString("rgb(%1, %2, %3)").arg(colorRgb.red).arg(colorRgb.green).arg(colorRgb.blue);
+    lineEdit->setStyleSheet(QString("QLineEdit { background-color: %1; }").arg(backgroundColor));
 }

@@ -19,6 +19,8 @@ public:
 private slots:
     void on_lineEdit_A1_textChanged(const QString &arg1);
 
+    void on_lineEdit_A2_textChanged(const QString &arg1);
+
 private:
     Ui::SudokuWindow *ui;
     Board board;

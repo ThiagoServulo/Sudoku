@@ -13,6 +13,9 @@ class Color
 public:
     Color();
     Rgb GetFixedColor();
+    Rgb GetInitialColor();
+    Rgb GetInitialHighlightedColor();
+    Rgb GetFixedHighlightedColor();
 
 private:
     Rgb initial;

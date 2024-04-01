@@ -10,9 +10,9 @@ public:
     void ConfigureField();
     void SetValue(int value);
     int GetValue();
-    void ChangeColor();
+    void HighlightField();
     void SetToFixed();
-    void sapo();
+    void OvershadowField();
 
 private:
     QLineEdit *lineEdit;

@@ -120,10 +120,11 @@ Board::Board(QLineEdit *line_edit_A1, QLineEdit *line_edit_A2, QLineEdit *line_e
 
 void Board::CheckBoardSameValues(int value, int row, int column)
 {
-    if(value == 0)
+    bool writing = false;
+    if(value != 0)
     {
-        fields[row][column].sapo();
-        return;
+        writing = true;
+        fields[row][column].SetValue(value);
     }
     // Check row
     for(int i = 0; i < 9; i++)
@@ -133,11 +134,22 @@ void Board::CheckBoardSameValues(int value, int row, int column)
             continue;
         }
 
-        if(fields[row][i].GetValue() == value)
+        if(fields[row][i].GetValue() == fields[row][column].GetValue())
         {
-            fields[row][i].ChangeColor();
-            fields[row][column].ChangeColor();
+            if(!writing)
+            {
+                fields[row][i].OvershadowField();
+                fields[row][column].OvershadowField();
+            }else
+            {
+                fields[row][i].HighlightField();
+                fields[row][column].HighlightField();
+            }
         }
+    }
+    if(!writing)
+    {
+        fields[row][column].SetValue(0);
     }
 }
 
