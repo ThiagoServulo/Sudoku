@@ -120,12 +120,22 @@ Board::Board(QLineEdit *line_edit_A1, QLineEdit *line_edit_A2, QLineEdit *line_e
 
 void Board::CheckBoardSameValues(int value, int row, int column)
 {
-    bool writing = false;
+    int quantity;
+
     if(value != 0)
     {
-        writing = true;
         fields[row][column].SetValue(value);
+        quantity = NumberOfEqualValuesInTheRow(fields[row][column].GetValue(), row) +
+            NumberOfEqualValuesInTheColumn(fields[row][column].GetValue(), column);
     }
+    else
+    {
+        quantity = NumberOfEqualValuesInTheRow(fields[row][column].GetValue(), row) +
+                   NumberOfEqualValuesInTheColumn(fields[row][column].GetValue(), column) - 1;
+    }
+
+    //qDebug() << quantity;
+
     // Check row
     for(int i = 0; i < 9; i++)
     {
@@ -136,10 +146,14 @@ void Board::CheckBoardSameValues(int value, int row, int column)
 
         if(fields[row][i].GetValue() == fields[row][column].GetValue())
         {
-            if(!writing)
+            if(value == 0)
             {
-                fields[row][i].OvershadowField();
                 fields[row][column].OvershadowField();
+                qDebug() << NumberOfEqualValues(fields[row][i].GetValue(), row, i);
+                if(NumberOfEqualValues(fields[row][i].GetValue(), row, i) == 1)
+                {
+                    fields[row][i].OvershadowField();
+                }
             }else
             {
                 fields[row][i].HighlightField();
@@ -147,9 +161,67 @@ void Board::CheckBoardSameValues(int value, int row, int column)
             }
         }
     }
-    if(!writing)
+
+    // Check column
+    for(int i = 0; i < 9; i++)
+    {
+        if(row == i)
+        {
+            continue;
+        }
+
+        if(fields[i][column].GetValue() == fields[row][column].GetValue())
+        {
+            if(value == 0)
+            {
+                fields[row][column].OvershadowField();
+                if(NumberOfEqualValues(fields[i][column].GetValue(), i, column) == 1)
+                {
+                    fields[i][column].OvershadowField();
+                }
+            }else
+            {
+                fields[i][column].HighlightField();
+                fields[row][column].HighlightField();
+            }
+        }
+    }
+
+
+    if(value == 0)
     {
         fields[row][column].SetValue(0);
     }
 }
 
+int Board::NumberOfEqualValues(int value, int row, int column)
+{
+    return NumberOfEqualValuesInTheRow(value, row) +
+           NumberOfEqualValuesInTheColumn(value, column);
+}
+
+int Board::NumberOfEqualValuesInTheRow(int value, int row)
+{
+    int quantity = -1;
+    for(int i = 0; i < 9; i++)
+    {
+        if(fields[row][i].GetValue() == value)
+        {
+            ++quantity;
+        }
+    }
+    return quantity;
+}
+
+int Board::NumberOfEqualValuesInTheColumn(int value, int column)
+{
+    int quantity = -1;
+    for(int i = 0; i < 9; i++)
+    {
+        if(fields[i][column].GetValue() == value)
+        {
+            ++quantity;
+        }
+    }
+    return quantity;
+}

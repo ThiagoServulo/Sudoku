@@ -32,7 +32,10 @@ public:
     void CheckBoardSameValues(int value, int row, int column);
 
 private:
-        Field fields[9][9];
+    Field fields[9][9];
+    int NumberOfEqualValuesInTheRow(int value, int row);
+    int NumberOfEqualValuesInTheColumn(int value, int column);
+    int NumberOfEqualValues(int value, int row, int column);
 };
 
 #endif // BOARD_H

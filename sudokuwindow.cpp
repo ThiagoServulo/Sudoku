@@ -39,3 +39,82 @@ void SudokuWindow::on_lineEdit_A2_textChanged(const QString &arg1)
     board.CheckBoardSameValues(arg1.toInt(), 0, 1);
 }
 
+void SudokuWindow::on_lineEdit_A3_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 0, 2);
+}
+
+void SudokuWindow::on_lineEdit_A4_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 0, 3);
+}
+
+void SudokuWindow::on_lineEdit_A5_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 0, 4);
+}
+
+void SudokuWindow::on_lineEdit_A6_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 0, 5);
+}
+
+void SudokuWindow::on_lineEdit_A7_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 0, 6);
+}
+
+void SudokuWindow::on_lineEdit_A8_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 0, 7);
+}
+
+void SudokuWindow::on_lineEdit_A9_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 0, 8);
+}
+
+void SudokuWindow::on_lineEdit_B1_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 1, 0);
+}
+
+void SudokuWindow::on_lineEdit_B2_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 1, 1);
+}
+
+void SudokuWindow::on_lineEdit_B3_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 1, 2);
+}
+
+void SudokuWindow::on_lineEdit_B4_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 1, 3);
+}
+
+void SudokuWindow::on_lineEdit_B5_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 1, 4);
+}
+
+void SudokuWindow::on_lineEdit_B6_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 1, 5);
+}
+
+void SudokuWindow::on_lineEdit_B7_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 1, 6);
+}
+
+void SudokuWindow::on_lineEdit_B8_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 1, 7);
+}
+
+void SudokuWindow::on_lineEdit_B9_textChanged(const QString &arg1)
+{
+    board.CheckBoardSameValues(arg1.toInt(), 1, 8);
+}
