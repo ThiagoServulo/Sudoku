@@ -4,6 +4,13 @@
 #include <QLineEdit>
 #include "field.h"
 
+struct Limits
+{
+    int lower;
+    int upper;
+};
+
+
 class Board
 {
 public:
@@ -33,9 +40,14 @@ public:
 
 private:
     Field fields[9][9];
-    int NumberOfEqualValuesInTheRow(int value, int row);
-    int NumberOfEqualValuesInTheColumn(int value, int column);
+    int NumberOfEqualValuesInTheRow(int value, int row, int column);
+    int NumberOfEqualValuesInTheColumn(int value, int row, int column);
+    int NumberOfEqualValuesInTheQuadrant(int value, int row, int column);
     int NumberOfEqualValues(int value, int row, int column);
+    void CheckRowSameValues(int value, int row, int column);
+    void CheckColumnSameValues(int value, int row, int column);
+    void CheckQuandantSameValues(int value, int row, int column);
+    Limits GenerateLimits(int position);
 };
 
 #endif // BOARD_H

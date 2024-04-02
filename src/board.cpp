@@ -1,4 +1,5 @@
 #include "board.h"
+#include <stdexcept>
 
 Board::Board()
 {
@@ -120,23 +121,29 @@ Board::Board(QLineEdit *line_edit_A1, QLineEdit *line_edit_A2, QLineEdit *line_e
 
 void Board::CheckBoardSameValues(int value, int row, int column)
 {
-    int quantity;
-
     if(value != 0)
     {
         fields[row][column].SetValue(value);
-        quantity = NumberOfEqualValuesInTheRow(fields[row][column].GetValue(), row) +
-            NumberOfEqualValuesInTheColumn(fields[row][column].GetValue(), column);
-    }
-    else
-    {
-        quantity = NumberOfEqualValuesInTheRow(fields[row][column].GetValue(), row) +
-                   NumberOfEqualValuesInTheColumn(fields[row][column].GetValue(), column) - 1;
     }
 
-    //qDebug() << quantity;
+    CheckQuandantSameValues(value, row, column);
 
     // Check row
+    CheckRowSameValues(value, row, column);
+
+    // Check column
+    CheckColumnSameValues(value, row, column);
+
+
+
+    if(value == 0)
+    {
+        fields[row][column].SetValue(0);
+    }
+}
+
+void Board::CheckRowSameValues(int value, int row, int column)
+{
     for(int i = 0; i < 9; i++)
     {
         if(column == i)
@@ -149,7 +156,6 @@ void Board::CheckBoardSameValues(int value, int row, int column)
             if(value == 0)
             {
                 fields[row][column].OvershadowField();
-                qDebug() << NumberOfEqualValues(fields[row][i].GetValue(), row, i);
                 if(NumberOfEqualValues(fields[row][i].GetValue(), row, i) == 1)
                 {
                     fields[row][i].OvershadowField();
@@ -161,8 +167,10 @@ void Board::CheckBoardSameValues(int value, int row, int column)
             }
         }
     }
+}
 
-    // Check column
+void Board::CheckColumnSameValues(int value, int row, int column)
+{
     for(int i = 0; i < 9; i++)
     {
         if(row == i)
@@ -186,25 +194,84 @@ void Board::CheckBoardSameValues(int value, int row, int column)
             }
         }
     }
+}
 
+void Board::CheckQuandantSameValues(int value, int row, int column)
+{
+    Limits rowLimit = GenerateLimits(row);
+    Limits columnLimit = GenerateLimits(column);
 
-    if(value == 0)
+    for(int i = rowLimit.lower; i <= rowLimit.upper; i++)
     {
-        fields[row][column].SetValue(0);
+        for(int j = columnLimit.lower; j <= columnLimit.upper; j++)
+        {
+            if(i == row && j == column)
+            {
+                continue;
+            }
+
+            if(fields[i][j].GetValue() == fields[row][column].GetValue())
+            {
+                if(value == 0)
+                {
+                    fields[row][column].OvershadowField();
+
+                    qDebug() << NumberOfEqualValues(fields[i][j].GetValue(), i, j);
+
+                    if(NumberOfEqualValues(fields[i][j].GetValue(), i, j) == 1)
+                    {
+                        fields[i][j].OvershadowField();
+                    }
+                }else
+                {
+                    fields[i][j].HighlightField();
+                    fields[row][column].HighlightField();
+                }
+            }
+        }
+    }
+}
+
+Limits Board::GenerateLimits(int position)
+{
+    switch(position)
+    {
+        case 0:
+        case 1:
+        case 2:
+            return {0, 2};
+
+        case 3:
+        case 4:
+        case 5:
+            return {3, 5};
+
+        case 6:
+        case 7:
+        case 8:
+            return {6, 8};
+
+        default:
+            throw std::invalid_argument("Invalid Position");
     }
 }
 
 int Board::NumberOfEqualValues(int value, int row, int column)
 {
-    return NumberOfEqualValuesInTheRow(value, row) +
-           NumberOfEqualValuesInTheColumn(value, column);
+    return NumberOfEqualValuesInTheRow(value, row, column) +
+           NumberOfEqualValuesInTheColumn(value, row, column) +
+           NumberOfEqualValuesInTheQuadrant(value, row, column);
 }
 
-int Board::NumberOfEqualValuesInTheRow(int value, int row)
+int Board::NumberOfEqualValuesInTheRow(int value, int row, int column)
 {
-    int quantity = -1;
+    int quantity = 0;
     for(int i = 0; i < 9; i++)
     {
+        if(i == column)
+        {
+            continue;
+        }
         if(fields[row][i].GetValue() == value)
         {
             ++quantity;
@@ -213,14 +280,47 @@ int Board::NumberOfEqualValuesInTheRow(int value, int row)
     return quantity;
 }
 
-int Board::NumberOfEqualValuesInTheColumn(int value, int column)
+int Board::NumberOfEqualValuesInTheColumn(int value, int row, int column)
 {
-    int quantity = -1;
+    int quantity = 0;
     for(int i = 0; i < 9; i++)
     {
+        if(row == i)
+        {
+            continue;
+        }
+
         if(fields[i][column].GetValue() == value)
         {
             ++quantity;
+        }
+    }
+    return quantity;
+}
+
+int Board::NumberOfEqualValuesInTheQuadrant(int value, int row, int column)
+{
+    int quantity = 0;
+    Limits rowLimit = GenerateLimits(row);
+    Limits columnLimit = GenerateLimits(column);
+
+    for(int i = rowLimit.lower; i <= rowLimit.upper; i++)
+    {
+        if(i == row)
+        {
+            continue;
+        }
+        for(int j = columnLimit.lower; j <= columnLimit.upper; j++)
+        {
+            if(j == column)
+            {
+                continue;
+            }
+
+            if(fields[i][j].GetValue() == value)
+            {
+                ++quantity;
+            }
         }
     }
     return quantity;
