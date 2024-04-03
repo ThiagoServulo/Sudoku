@@ -1,7 +1,10 @@
 #include "field.h"
 #include "src/color.h"
+#include <QString>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
+
+#include <string>
 
 Field::Field()
 {
@@ -44,7 +47,6 @@ void Field::SetValue(int value)
 
 int Field::GetValue()
 {
-    //return lineEdit->text().toInt();
     return value;
 }
 
@@ -58,10 +60,20 @@ void Field::HighlightField()
     lineEdit->setStyleSheet(QString("QLineEdit { background-color: %1; }").arg(backgroundColor));
 }
 
-void Field::SetToFixed()
+void Field::SetToFixed(int value)
 {
-    SetValue(5);
+    lineEdit->blockSignals(true);
+    SetValue(value);
     lineEdit->setEnabled(false);
+    OvershadowField();
+    lineEdit->blockSignals(false);
+}
+
+void Field::SetToInitial()
+{
+    SetValue(0);
+    lineEdit->setEnabled(true);
+    OvershadowField();
 }
 
 void Field::OvershadowField()

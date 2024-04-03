@@ -1,4 +1,5 @@
 #include "board.h"
+#include "src/sudokugenerator.h"
 #include <stdexcept>
 
 Board::Board()
@@ -117,6 +118,28 @@ Board::Board(QLineEdit *line_edit_A1, QLineEdit *line_edit_A2, QLineEdit *line_e
     fields[8][6] = Field(line_edit_I7);
     fields[8][7] = Field(line_edit_I8);
     fields[8][8] = Field(line_edit_I9);
+
+    ConfigureNewGame();
+}
+
+void Board::ConfigureNewGame()
+{
+    for(int i = 0; i < 9; i++)
+    {
+        for(int j = 0; j < 9; j++)
+        {
+            fields[i][j].SetToInitial();
+        }
+    }
+
+    // Fake generation
+    SudokuGenerator generator;
+    QList<Square> squareList = generator.GenerateNewGame();
+
+    for (const Square &square : squareList)
+    {
+        fields[square.row][square.column].SetToFixed(square.value);
+    }
 }
 
 void Board::CheckBoardSameValues(int value, int row, int column)
@@ -133,8 +156,6 @@ void Board::CheckBoardSameValues(int value, int row, int column)
 
     // Check column
     CheckColumnSameValues(value, row, column);
-
-
 
     if(value == 0)
     {
@@ -215,9 +236,6 @@ void Board::CheckQuandantSameValues(int value, int row, int column)
                 if(value == 0)
                 {
                     fields[row][column].OvershadowField();
-
-                    qDebug() << NumberOfEqualValues(fields[i][j].GetValue(), i, j);
-
                     if(NumberOfEqualValues(fields[i][j].GetValue(), i, j) == 1)
                     {
                         fields[i][j].OvershadowField();

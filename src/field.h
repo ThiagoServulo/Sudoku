@@ -11,7 +11,8 @@ public:
     void SetValue(int value);
     int GetValue();
     void HighlightField();
-    void SetToFixed();
+    void SetToFixed(int value);
+    void SetToInitial();
     void OvershadowField();
 
 private:

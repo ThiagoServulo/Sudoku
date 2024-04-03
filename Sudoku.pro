@@ -13,12 +13,14 @@ SOURCES += \
     src/board.cpp \
     src/color.cpp \
     src/field.cpp \
+    src/sudokugenerator.cpp \
     sudokuwindow.cpp
 
 HEADERS += \
     src/board.h \
     src/color.h \
     src/field.h \
+    src/sudokugenerator.h \
     sudokuwindow.h
 
 FORMS += \
