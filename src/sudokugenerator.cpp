@@ -1,16 +1,148 @@
 #include "sudokugenerator.h"
+#include <stdexcept>
 
 SudokuGenerator::SudokuGenerator()
 {
 
 }
 
-QList<Square> SudokuGenerator::GenerateNewGame()
+int SudokuGenerator::ChooseNumberFromTheSet(std::set<int>& numbers)
 {
-    QList<Square> squareList;
+    // Initializing a random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
-    // TODO: Create function to generate the sudoku
-    squareList.append({2, 0, 1});
+    // Generating a random number based on the size of the set
+    std::uniform_int_distribution<> dist(0, numbers.size() - 1);
+    auto it = std::next(numbers.begin(), dist(gen));
 
-    return squareList;
+    // Returning the drawn number
+    return *it;
+}
+
+void SudokuGenerator::GenerateNewGame(int board[9][9])
+{
+    // Generate a valid Sudoku recursively
+    if (!GenerateSudoku(board, 0, 0))
+    {
+        throw std::runtime_error("It was not possible to generate the Sudoku.");
+    }
+}
+
+bool SudokuGenerator::GenerateSudoku(int board[9][9], int row, int col)
+{
+    // If all rows have been filled, the Sudoku has been generated
+    if (row == 9)
+    {
+        return true;
+    }
+
+    // If all columns are filled, move to the next row
+    if (col == 9)
+    {
+        return GenerateSudoku(board, row + 1, 0);
+    }
+
+    // If the cell is already filled, move to the next one
+    if (board[row][col] != 0)
+    {
+        return GenerateSudoku(board, row, col + 1);
+    }
+
+    // Init set numbers
+    std::set<int> numbers{1, 2, 3, 4, 5, 6, 7, 8, 9};
+    while(!numbers.empty())
+    {
+        // Choose a random number
+        int value = ChooseNumberFromTheSet(numbers);
+
+        // Check if the number is valid
+        if(IsSafe(value, row, col, board))
+        {
+            board[row][col] = value;
+
+            // Check if the Sudoku has been generated
+            if (GenerateSudoku(board, row, col + 1))
+            {
+                // If the recursion is successful, the Sudoku has been generated
+                return true;
+            }
+
+            // Otherwise, try another number.
+            board[row][col] = 0;
+        }
+
+        // Remove the invalid number from the set
+        numbers.erase(value);
+    }
+
+    // If no number is valid, return false
+    return false;
+}
+
+bool SudokuGenerator::IsSafe(int value, int row, int column, int board[9][9])
+{
+    // Check if the value is valid
+    return RowIsSafe(value, row, board) &&
+           ColumnIsSafe(value, column, board) &&
+           QuadrantIsSafe(value, row, column, board);
+}
+
+bool SudokuGenerator::RowIsSafe(int value, int row, int board[9][9])
+{
+    // Traverse through all columns
+    for (int col = 0; col < 9; ++col)
+    {
+        // Check if the values are equal
+        if (board[row][col] == value)
+        {
+            // This value cannot be used
+            return false;
+        }
+    }
+
+    // This value can be used
+    return true;
+}
+
+bool SudokuGenerator::ColumnIsSafe(int value, int column, int board[9][9])
+{
+    // Traverse through all rows
+    for (int row = 0; row < 9; ++row)
+    {
+        // Check if the values are equal
+        if (board[row][column] == value)
+        {
+            // Check if the values are equal
+            return false;
+        }
+    }
+
+    // This value can be used
+    return true;
+}
+
+bool SudokuGenerator::QuadrantIsSafe(int value, int row, int column, int board[9][9])
+{
+    // Init variables
+    int startRow = row - row % 3;
+    int startCol = column - column % 3;
+
+    // Traverse through all rows
+    for (int i = 0; i < 3; i++)
+    {
+        // Traverse through all columns
+        for (int j = 0; j < 3; j++)
+        {
+            // Check if the values are equal
+            if (board[i + startRow][j + startCol] == value)
+            {
+                // Check if the values are equal
+                return false;
+            }
+        }
+    }
+
+    // This value can be used
+    return true;
 }

@@ -132,14 +132,18 @@ void Board::ConfigureNewGame()
         }
     }
 
-    // Fake generation
     SudokuGenerator generator;
-    QList<Square> squareList = generator.GenerateNewGame();
+    int board[9][9] = {0};
+    generator.GenerateNewGame(board);
 
-    for (const Square &square : squareList)
+    for(int i = 0; i < 9; i++)
     {
-        fields[square.row][square.column].SetToFixed(square.value);
+        for(int j = 0; j < 9; j++)
+        {
+            fields[i][j].SetToFixed(board[i][j]);
+        }
     }
+
 }
 
 void Board::CheckBoardSameValues(int value, int row, int column)
@@ -208,7 +212,8 @@ void Board::CheckColumnSameValues(int value, int row, int column)
                 {
                     fields[i][column].OvershadowField();
                 }
-            }else
+            }
+            else
             {
                 fields[i][column].HighlightField();
                 fields[row][column].HighlightField();
@@ -219,12 +224,16 @@ void Board::CheckColumnSameValues(int value, int row, int column)
 
 void Board::CheckQuandantSameValues(int value, int row, int column)
 {
-    Limits rowLimit = GenerateLimits(row);
-    Limits columnLimit = GenerateLimits(column);
+    // Determinando os limites do quadrante
+    int startRow = row - row % 3;
+    int startCol = column - column % 3;
+    int endRow = startRow + 2;
+    int endCol = startCol + 2;
 
-    for(int i = rowLimit.lower; i <= rowLimit.upper; i++)
+    // Iterando apenas sobre as células do quadrante
+    for (int i = startRow; i <= endRow; ++i)
     {
-        for(int j = columnLimit.lower; j <= columnLimit.upper; j++)
+        for (int j = startCol; j <= endCol; ++j)
         {
             if(i == row && j == column)
             {
@@ -240,37 +249,14 @@ void Board::CheckQuandantSameValues(int value, int row, int column)
                     {
                         fields[i][j].OvershadowField();
                     }
-                }else
+                }
+                else
                 {
                     fields[i][j].HighlightField();
                     fields[row][column].HighlightField();
                 }
             }
         }
-    }
-}
-
-Limits Board::GenerateLimits(int position)
-{
-    switch(position)
-    {
-        case 0:
-        case 1:
-        case 2:
-            return {0, 2};
-
-        case 3:
-        case 4:
-        case 5:
-            return {3, 5};
-
-        case 6:
-        case 7:
-        case 8:
-            return {6, 8};
-
-        default:
-            throw std::invalid_argument("Invalid Position");
     }
 }
 
@@ -319,27 +305,36 @@ int Board::NumberOfEqualValuesInTheColumn(int value, int row, int column)
 int Board::NumberOfEqualValuesInTheQuadrant(int value, int row, int column)
 {
     int quantity = 0;
-    Limits rowLimit = GenerateLimits(row);
-    Limits columnLimit = GenerateLimits(column);
 
-    for(int i = rowLimit.lower; i <= rowLimit.upper; i++)
+    // Determinando os limites do quadrante
+    int startRow = row - row % 3;
+    int startCol = column - column % 3;
+    int endRow = startRow + 2;
+    int endCol = startCol + 2;
+
+    // Iterando apenas sobre as células do quadrante
+    for (int i = startRow; i <= endRow; ++i)
     {
-        if(i == row)
+        // Ignorando a própria célula
+        if (i == row)
         {
             continue;
         }
-        for(int j = columnLimit.lower; j <= columnLimit.upper; j++)
+        for (int j = startCol; j <= endCol; ++j)
         {
-            if(j == column)
+            // Ignorando a própria célula
+            if (j == column)
             {
                 continue;
             }
 
-            if(fields[i][j].GetValue() == value)
+            // Verificando se o valor da célula é igual ao valor fornecido
+            if (fields[i][j].GetValue() == value)
             {
                 ++quantity;
             }
         }
     }
+
     return quantity;
 }
