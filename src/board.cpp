@@ -140,7 +140,10 @@ void Board::ConfigureNewGame()
     {
         for(int j = 0; j < 9; j++)
         {
-            fields[i][j].SetToFixed(board[i][j]);
+            if(board[i][j] != 0)
+            {
+                fields[i][j].SetToFixed(board[i][j]);
+            }
         }
     }
 

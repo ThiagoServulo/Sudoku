@@ -27,6 +27,8 @@ void SudokuGenerator::GenerateNewGame(int board[9][9])
     {
         throw std::runtime_error("It was not possible to generate the Sudoku.");
     }
+
+    HideCells(board);
 }
 
 bool SudokuGenerator::GenerateSudoku(int board[9][9], int row, int col)
@@ -43,7 +45,7 @@ bool SudokuGenerator::GenerateSudoku(int board[9][9], int row, int col)
         return GenerateSudoku(board, row + 1, 0);
     }
 
-    // If the cell is already filled, move to the next one
+    // If the cell is already filled, move to the next column
     if (board[row][col] != 0)
     {
         return GenerateSudoku(board, row, col + 1);
@@ -145,4 +147,37 @@ bool SudokuGenerator::QuadrantIsSafe(int value, int row, int column, int board[9
 
     // This value can be used
     return true;
+}
+
+void SudokuGenerator::HideCells(int board[9][9])
+{
+    // Initialize random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 80);
+
+    // Create a vector to store cell indices
+    std::vector<int> cellsToHide(81);
+    for (int i = 0; i < 81; i++)
+    {
+        cellsToHide[i] = i;
+    }
+
+    // Shuffle the cell indices
+    std::shuffle(cellsToHide.begin(), cellsToHide.end(), gen);
+
+    // Define the number of cells to hide
+    const int numCellsToHide = 50;
+
+    // Hide the specified number of cells
+    for (int i = 0; i < numCellsToHide; i++)
+    {
+        // Get the index of the cell to hide
+        int index = cellsToHide[i];
+        int row = index / 9;
+        int col = index % 9;
+
+        // Hide the cell by setting its value to 0
+        board[row][col] = 0;
+    }
 }

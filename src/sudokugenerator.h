@@ -1,10 +1,10 @@
 #ifndef SUDOKUGENERATOR_H
 #define SUDOKUGENERATOR_H
 
-#include <set>
 #include "board.h"
-#include <algorithm>
+#include <set>
 #include <random>
+#include <algorithm>
 
 class SudokuGenerator
 {
@@ -20,6 +20,7 @@ private:
     bool ColumnIsSafe(int value, int column, int board[9][9]);
     bool QuadrantIsSafe(int value, int row, int column, int board[9][9]);
     void ShuffleBoard(int board[9][9], std::mt19937& gen);
+    void HideCells(int board[9][9]);
 };
 
 #endif // SUDOKUGENERATOR_H
