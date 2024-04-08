@@ -124,14 +124,6 @@ Board::Board(QLineEdit *line_edit_A1, QLineEdit *line_edit_A2, QLineEdit *line_e
 
 void Board::ConfigureNewGame()
 {
-    for(int i = 0; i < 9; i++)
-    {
-        for(int j = 0; j < 9; j++)
-        {
-            fields[i][j].SetToInitial();
-        }
-    }
-
     SudokuGenerator generator;
     int board[9][9] = {0};
     generator.GenerateNewGame(board);
@@ -143,6 +135,10 @@ void Board::ConfigureNewGame()
             if(board[i][j] != 0)
             {
                 fields[i][j].SetToFixed(board[i][j]);
+            }
+            else
+            {
+                fields[i][j].SetToInitial();
             }
         }
     }

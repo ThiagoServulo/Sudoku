@@ -28,6 +28,7 @@ void SudokuGenerator::GenerateNewGame(int board[9][9])
         throw std::runtime_error("It was not possible to generate the Sudoku.");
     }
 
+    // Hide cells
     HideCells(board);
 }
 
