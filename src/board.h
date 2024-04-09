@@ -30,6 +30,7 @@ public:
           QLineEdit *line_edit_I5, QLineEdit *line_edit_I6, QLineEdit *line_edit_I7, QLineEdit *line_edit_I8,
           QLineEdit *line_edit_I9);
     void CheckBoardSameValues(int value, int row, int column);
+    void SolveUsingBacktracking();
 
 private:
     Field fields[9][9];

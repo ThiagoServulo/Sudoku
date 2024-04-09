@@ -337,3 +337,8 @@ int Board::NumberOfEqualValuesInTheQuadrant(int value, int row, int column)
 
     return quantity;
 }
+
+void Board::SolveUsingBacktracking()
+{
+
+}

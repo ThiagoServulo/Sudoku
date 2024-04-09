@@ -952,6 +952,19 @@
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButtonSolveUsingBacktracking">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>80</y>
+      <width>181</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Solve using backtracking</string>
+    </property>
+   </widget>
    <zorder>lineEdit_A1</zorder>
    <zorder>lineEdit_A2</zorder>
    <zorder>lineEdit_A3</zorder>
@@ -1041,6 +1054,7 @@
    <zorder>label_8</zorder>
    <zorder>label_2</zorder>
    <zorder>label</zorder>
+   <zorder>pushButtonSolveUsingBacktracking</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

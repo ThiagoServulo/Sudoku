@@ -12,6 +12,7 @@ public:
     int GetValue();
     void HighlightField();
     void SetToFixed(int value);
+    bool IsFixed();
     void SetToInitial();
     void OvershadowField();
 

@@ -433,3 +433,9 @@ void SudokuWindow::on_lineEdit_I9_textChanged(const QString &arg1)
 {
     board.CheckBoardSameValues(arg1.toInt(), 8, 8);
 }
+
+void SudokuWindow::on_pushButtonSolveUsingBacktracking_clicked()
+{
+    board.SolveUsingBacktracking();
+}
+

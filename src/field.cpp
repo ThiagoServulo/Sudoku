@@ -69,6 +69,11 @@ void Field::SetToFixed(int value)
     lineEdit->blockSignals(false);
 }
 
+bool Field::IsFixed()
+{
+    return lineEdit->isEnabled();
+}
+
 void Field::SetToInitial()
 {
     SetValue(0);

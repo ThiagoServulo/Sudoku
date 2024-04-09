@@ -99,6 +99,8 @@ private slots:
     void on_lineEdit_I8_textChanged(const QString &arg1);
     void on_lineEdit_I9_textChanged(const QString &arg1);
 
+    void on_pushButtonSolveUsingBacktracking_clicked();
+
 private:
     Ui::SudokuWindow *ui;
     Board board;
