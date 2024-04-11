@@ -71,7 +71,7 @@ void Field::SetToFixed(int value)
 
 bool Field::IsFixed()
 {
-    return lineEdit->isEnabled();
+    return !lineEdit->isEnabled();
 }
 
 void Field::SetToInitial()

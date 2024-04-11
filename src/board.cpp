@@ -1,5 +1,6 @@
 #include "board.h"
 #include "src/sudokugenerator.h"
+#include "src/sudokubacktrackingsolver.h"
 #include <stdexcept>
 
 Board::Board()
@@ -340,5 +341,6 @@ int Board::NumberOfEqualValuesInTheQuadrant(int value, int row, int column)
 
 void Board::SolveUsingBacktracking()
 {
-
+    SudokuBacktrackingSolver solver;
+    solver.BacktrackingSolver(fields, 0, 0);
 }
