@@ -35,7 +35,6 @@ public:
 
 private:
     Field fields[9][9];
-    //void ConfigureNewGame();
     int NumberOfEqualValuesInTheRow(int value, int row, int column);
     int NumberOfEqualValuesInTheColumn(int value, int row, int column);
     int NumberOfEqualValuesInTheQuadrant(int value, int row, int column);
