@@ -31,10 +31,11 @@ public:
           QLineEdit *line_edit_I9);
     void CheckBoardSameValues(int value, int row, int column);
     void SolveUsingBacktracking();
+    void ConfigureNewGame();
 
 private:
     Field fields[9][9];
-    void ConfigureNewGame();
+    //void ConfigureNewGame();
     int NumberOfEqualValuesInTheRow(int value, int row, int column);
     int NumberOfEqualValuesInTheColumn(int value, int row, int column);
     int NumberOfEqualValuesInTheQuadrant(int value, int row, int column);

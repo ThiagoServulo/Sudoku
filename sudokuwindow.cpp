@@ -1,5 +1,6 @@
 #include "sudokuwindow.h"
 #include "ui_sudokuwindow.h"
+#include <QMessageBox>
 
 SudokuWindow::SudokuWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -27,7 +28,6 @@ SudokuWindow::~SudokuWindow()
 {
     delete ui;
 }
-
 
 void SudokuWindow::on_lineEdit_A1_textChanged(const QString &arg1)
 {
@@ -437,5 +437,20 @@ void SudokuWindow::on_lineEdit_I9_textChanged(const QString &arg1)
 void SudokuWindow::on_pushButtonSolveUsingBacktracking_clicked()
 {
     board.SolveUsingBacktracking();
+}
+
+void SudokuWindow::on_pushButtonNewGame_clicked()
+{
+    // Show message box
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(nullptr, "Sudoku", "Do you want to start a new game??",
+                                    QMessageBox::Yes|QMessageBox::No);
+
+    // Check the answer
+    if (reply == QMessageBox::Yes)
+    {
+        QMessageBox::information(nullptr, "Sudoku", "Generating a new game!");
+        board.ConfigureNewGame();
+    }
 }
 
