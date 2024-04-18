@@ -35,10 +35,6 @@ public:
 
 private:
     Field fields[9][9];
-    int NumberOfEqualValuesInTheRow(int value, int row, int column);
-    int NumberOfEqualValuesInTheColumn(int value, int row, int column);
-    int NumberOfEqualValuesInTheQuadrant(int value, int row, int column);
-    int NumberOfEqualValues(int value, int row, int column);
     void CheckRowSameValues(int value, int row, int column);
     void CheckColumnSameValues(int value, int row, int column);
     void CheckQuandantSameValues(int value, int row, int column);

@@ -1,7 +1,9 @@
 #include "board.h"
 #include "src/sudokugenerator.h"
 #include "src/sudokubacktrackingsolver.h"
+#include "src/sudokuutilities.h"
 #include <stdexcept>
+#include <QMessageBox>
 
 Board::Board()
 {
@@ -175,10 +177,33 @@ void Board::CheckBoardSameValues(int value, int row, int column)
         // Set value to zero
         fields[row][column].SetValue(0);
     }
+
+    // Check if the sudoku is completed
+    SudokuUtilities utilities;
+    if(utilities.IsCompleted(fields))
+    {
+        // Show message box
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(nullptr, "Sudoku", "Do you want to start a new game??",
+                                      QMessageBox::Yes|QMessageBox::No);
+
+        // Check the answer
+        if (reply == QMessageBox::Yes)
+        {
+            QMessageBox::information(nullptr, "Sudoku", "Generating a new game!");
+            ConfigureNewGame();
+        }
+        else
+        {
+            // fechar aplicação
+        }
+    }
 }
 
 void Board::CheckRowSameValues(int value, int row, int column)
 {
+    SudokuUtilities utilities;
+
     // Iterate over each column in the row
     for(int i = 0; i < 9; i++)
     {
@@ -195,7 +220,7 @@ void Board::CheckRowSameValues(int value, int row, int column)
             if(value == 0)
             {
                 fields[row][column].OvershadowField();
-                if(NumberOfEqualValues(fields[row][i].GetValue(), row, i) == 1)
+                if(utilities.NumberOfEqualValues(fields[row][i].GetValue(), row, i, fields) == 1)
                 {
                     fields[row][i].OvershadowField();
                 }
@@ -212,6 +237,8 @@ void Board::CheckRowSameValues(int value, int row, int column)
 
 void Board::CheckColumnSameValues(int value, int row, int column)
 {
+    SudokuUtilities utilities;
+
     // Iterate over each row in the column
     for(int i = 0; i < 9; i++)
     {
@@ -228,7 +255,7 @@ void Board::CheckColumnSameValues(int value, int row, int column)
             if(value == 0)
             {
                 fields[row][column].OvershadowField();
-                if(NumberOfEqualValues(fields[i][column].GetValue(), i, column) == 1)
+                if(utilities.NumberOfEqualValues(fields[i][column].GetValue(), i, column, fields) == 1)
                 {
                     fields[i][column].OvershadowField();
                 }
@@ -245,6 +272,8 @@ void Board::CheckColumnSameValues(int value, int row, int column)
 
 void Board::CheckQuandantSameValues(int value, int row, int column)
 {
+    SudokuUtilities utilities;
+
     // Calculate the starting row and column of the quadrant
     int startRow = row - row % 3;
     int startCol = column - column % 3;
@@ -270,7 +299,7 @@ void Board::CheckQuandantSameValues(int value, int row, int column)
                 if(value == 0)
                 {
                     fields[row][column].OvershadowField();
-                    if(NumberOfEqualValues(fields[i][j].GetValue(), i, j) == 1)
+                    if(utilities.NumberOfEqualValues(fields[i][j].GetValue(), i, j, fields) == 1)
                     {
                         fields[i][j].OvershadowField();
                     }
@@ -285,101 +314,6 @@ void Board::CheckQuandantSameValues(int value, int row, int column)
         }
     }
 }
-
-int Board::NumberOfEqualValues(int value, int row, int column)
-{
-    // Check equal values in rows, columns and quadrants
-    return NumberOfEqualValuesInTheRow(value, row, column) +
-           NumberOfEqualValuesInTheColumn(value, row, column) +
-           NumberOfEqualValuesInTheQuadrant(value, row, column);
-}
-
-int Board::NumberOfEqualValuesInTheRow(int value, int row, int column)
-{
-    int quantity = 0;
-
-    // Iterate over each column in the row
-    for(int i = 0; i < 9; i++)
-    {
-        // Skip the current column to avoid counting the value in the same column
-        if(i == column)
-        {
-            continue;
-        }
-
-        // Check if the value in the current field of the row equals the specified value
-        if(fields[row][i].GetValue() == value)
-        {
-            ++quantity;
-        }
-    }
-
-    return quantity;
-}
-
-int Board::NumberOfEqualValuesInTheColumn(int value, int row, int column)
-{
-    int quantity = 0;
-
-    // Iterate over each row in the column
-    for(int i = 0; i < 9; i++)
-    {
-        // Skip the current row to avoid counting the value in the same row
-        if(row == i)
-        {
-            continue;
-        }
-
-        // Check if the value in the current field of the column equals the specified value
-        if(fields[i][column].GetValue() == value)
-        {
-            ++quantity;
-        }
-    }
-
-    return quantity;
-}
-
-
-int Board::NumberOfEqualValuesInTheQuadrant(int value, int row, int column)
-{
-    int quantity = 0;
-
-    // Calculate the starting row and column of the quadrant
-    int startRow = row - row % 3;
-    int startCol = column - column % 3;
-    int endRow = startRow + 2;
-    int endCol = startCol + 2;
-
-    // Iterate over each row in the quadrant
-    for (int i = startRow; i <= endRow; i++)
-    {
-        // Skip the current row to avoid counting the value in the same row
-        if (i == row)
-        {
-            continue;
-        }
-
-        // Iterate over each column in the quadrant
-        for (int j = startCol; j <= endCol; j++)
-        {
-            // Skip the current column to avoid counting the value in the same column
-            if (j == column)
-            {
-                continue;
-            }
-
-            // Check if the value in the current field equals the specified value
-            if (fields[i][j].GetValue() == value)
-            {
-                ++quantity;
-            }
-        }
-    }
-
-    return quantity;
-}
-
 
 void Board::SolveUsingBacktracking()
 {

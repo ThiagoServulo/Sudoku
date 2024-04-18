@@ -15,6 +15,7 @@ SOURCES += \
     src/field.cpp \
     src/sudokubacktrackingsolver.cpp \
     src/sudokugenerator.cpp \
+    src/sudokuutilities.cpp \
     sudokuwindow.cpp
 
 HEADERS += \
@@ -23,6 +24,7 @@ HEADERS += \
     src/field.h \
     src/sudokubacktrackingsolver.h \
     src/sudokugenerator.h \
+    src/sudokuutilities.h \
     sudokuwindow.h
 
 FORMS += \

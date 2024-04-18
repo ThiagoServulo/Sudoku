@@ -1,4 +1,5 @@
 #include "sudokubacktrackingsolver.h"
+#include "sudokuutilities.h"
 #include <QThread>
 #include <QCoreApplication>
 
@@ -9,6 +10,8 @@ SudokuBacktrackingSolver::SudokuBacktrackingSolver()
 
 void SudokuBacktrackingSolver::BacktrackingSolver(Field fields[9][9], int initialRow, int initialColumn)
 {
+    SudokuUtilities utilities;
+
     // Initialize row and column
     int row = initialRow;
     int column = initialColumn;
@@ -33,7 +36,6 @@ void SudokuBacktrackingSolver::BacktrackingSolver(Field fields[9][9], int initia
 
                     // Force GUI update
                     QCoreApplication::processEvents();
-                    QThread::msleep(10);
 
                     // Calculate the next row and column
                     int nextRow = row;
@@ -50,7 +52,7 @@ void SudokuBacktrackingSolver::BacktrackingSolver(Field fields[9][9], int initia
                     BacktrackingSolver(fields, nextRow, nextColumn);
 
                     // Check if the sudoku is completed
-                    if (IsCompleted(fields))
+                    if (utilities.IsCompleted(fields))
                     {
                         return;
                     }
@@ -80,84 +82,28 @@ void SudokuBacktrackingSolver::BacktrackingSolver(Field fields[9][9], int initia
 bool SudokuBacktrackingSolver::IsSafe(int value, int row, int column, Field fields[9][9])
 {
     // Check if the value is safe in the row, column, and quadrant
-    return RowIsSafe(value, row, fields) &&
-           ColumnIsSafe(value, column, fields) &&
+    return RowIsSafe(value, row, column, fields) &&
+           ColumnIsSafe(value, row, column, fields) &&
            QuadrantIsSafe(value, row, column, fields);
 }
 
-bool SudokuBacktrackingSolver::RowIsSafe(int value, int row, Field fields[9][9])
+bool SudokuBacktrackingSolver::RowIsSafe(int value, int row, int column, Field fields[9][9])
 {
-    for (int column = 0; column < 9; column++)
-    {
-        // Check if the value already exists in the row
-        if (fields[row][column].GetValue() == value)
-        {
-            // Value is not safe in the row
-            return false;
-        }
-    }
-
-    // Value is safe in the row
-    return true;
+    // Check if the row is safe
+    SudokuUtilities utilities;
+    return !utilities.NumberOfEqualValuesInTheRow(value, row, column, fields);
 }
 
-bool SudokuBacktrackingSolver::ColumnIsSafe(int value, int column, Field fields[9][9])
+bool SudokuBacktrackingSolver::ColumnIsSafe(int value, int row, int column, Field fields[9][9])
 {
-    for (int row = 0; row < 9; row++)
-    {
-        // Check if the value already exists in the column
-        if (fields[row][column].GetValue() == value)
-        {
-            // Value is not safe in the column
-            return false;
-        }
-    }
-
-    // Value is safe in the column
-    return true;
+    // Check if the column is safe
+    SudokuUtilities utilities;
+    return !utilities.NumberOfEqualValuesInTheColumn(value, row, column, fields);
 }
-
 
 bool SudokuBacktrackingSolver::QuadrantIsSafe(int value, int row, int column, Field fields[9][9])
 {
-    // Calculate the start row and column of the quadrant
-    int startRow = row - row % 3;
-    int startCol = column - column % 3;
-
-    for (int i = startRow; i < startRow + 3; i++)
-    {
-        for (int j = startCol; j < startCol + 3; j++)
-        {
-            // Check if the value already exists in the quadrant
-            if (fields[i][j].GetValue() == value)
-            {
-                // Value is not safe in the quadrant
-                return false;
-            }
-        }
-    }
-
-    // Value is safe in the quadrant
-    return true;
+    // Check if the quadrant is safe
+    SudokuUtilities utilities;
+    return !utilities.NumberOfEqualValuesInTheQuadrant(value, row, column, fields);
 }
-
-
-bool SudokuBacktrackingSolver::IsCompleted(Field fields[9][9])
-{
-    for (int row = 0; row < 9; row++)
-    {
-        for (int column = 0; column < 9; column++)
-        {
-            // Check if the value of the current field is zero
-            if (fields[row][column].GetValue() == 0)
-            {
-                // Sudoku is not completed
-                return false;
-            }
-        }
-    }
-
-    // Sudoku is completed
-    return true;
-}
-
