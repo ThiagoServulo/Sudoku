@@ -29,7 +29,7 @@ void SudokuBacktrackingSolver::BacktrackingSolver(Field fields[9][9], int initia
             while (number <= 9)
             {
                 // Check if the current number is safe to place
-                if (IsSafe(number, row, column, fields))
+                if (utilities.IsSafe(number, row, column, fields))
                 {
                     // Set the value of the field
                     fields[row][column].BlockSignals();
@@ -79,33 +79,4 @@ void SudokuBacktrackingSolver::BacktrackingSolver(Field fields[9][9], int initia
             row++;
         }
     }
-}
-
-bool SudokuBacktrackingSolver::IsSafe(int value, int row, int column, Field fields[9][9])
-{
-    // Check if the value is safe in the row, column, and quadrant
-    return RowIsSafe(value, row, column, fields) &&
-           ColumnIsSafe(value, row, column, fields) &&
-           QuadrantIsSafe(value, row, column, fields);
-}
-
-bool SudokuBacktrackingSolver::RowIsSafe(int value, int row, int column, Field fields[9][9])
-{
-    // Check if the row is safe
-    SudokuUtilities utilities;
-    return !utilities.NumberOfEqualValuesInTheRow(value, row, column, fields);
-}
-
-bool SudokuBacktrackingSolver::ColumnIsSafe(int value, int row, int column, Field fields[9][9])
-{
-    // Check if the column is safe
-    SudokuUtilities utilities;
-    return !utilities.NumberOfEqualValuesInTheColumn(value, row, column, fields);
-}
-
-bool SudokuBacktrackingSolver::QuadrantIsSafe(int value, int row, int column, Field fields[9][9])
-{
-    // Check if the quadrant is safe
-    SudokuUtilities utilities;
-    return !utilities.NumberOfEqualValuesInTheQuadrant(value, row, column, fields);
 }

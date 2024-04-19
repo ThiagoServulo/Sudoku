@@ -86,6 +86,52 @@ bool SudokuGenerator::GenerateSudoku(int board[9][9], int row, int col)
     return false;
 }
 
+/*
+bool SudokuGenerator::GenerateSudoku(Field fields[9][9], int row, int col)
+{
+    // Se todas as linhas foram preenchidas, o Sudoku foi gerado
+    if (row == 9) {
+        return true;
+    }
+
+    // Se todas as colunas estiverem preenchidas, passa para a próxima linha
+    if (col == 9) {
+        return GenerateSudoku(fields, row + 1, 0);
+    }
+
+    // Se a célula já estiver preenchida, passa para a próxima coluna
+    if (fields[row][col].GetValue() != 0) {
+        return GenerateSudoku(fields, row, col + 1);
+    }
+
+    // Inicializa conjunto de números
+    std::set<int> numbers{1, 2, 3, 4, 5, 6, 7, 8, 9};
+    while (!numbers.empty()) {
+        // Escolhe um número aleatório
+        int value = ChooseNumberFromTheSet(numbers);
+
+        // Verifica se o número é válido
+        if (IsSafe(value, row, col, fields)) {
+            fields[row][col].SetValue(value);
+
+            // Verifica se o Sudoku foi gerado
+            if (GenerateSudoku(fields, row, col + 1)) {
+                // Se a recursão for bem-sucedida, o Sudoku foi gerado
+                return true;
+            }
+
+            // Caso contrário, tenta outro número.
+            fields[row][col].SetValue(0);
+        }
+
+        // Remove o número inválido do conjunto
+        numbers.erase(value);
+    }
+
+    // Se nenhum número for válido, retorna falso
+    return false;
+}
+*/
 bool SudokuGenerator::IsSafe(int value, int row, int column, int board[9][9])
 {
     // Check if the value is valid

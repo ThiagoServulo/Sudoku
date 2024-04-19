@@ -123,3 +123,29 @@ bool SudokuUtilities::IsCompleted(Field fields[9][9])
     // Sudoku is completed
     return true;
 }
+
+bool SudokuUtilities::IsSafe(int value, int row, int column, Field fields[9][9])
+{
+    // Check if the value is safe in the row, column, and quadrant
+    return RowIsSafe(value, row, column, fields) &&
+           ColumnIsSafe(value, row, column, fields) &&
+           QuadrantIsSafe(value, row, column, fields);
+}
+
+bool SudokuUtilities::RowIsSafe(int value, int row, int column, Field fields[9][9])
+{
+    // Check if the row is safe
+    return !NumberOfEqualValuesInTheRow(value, row, column, fields);
+}
+
+bool SudokuUtilities::ColumnIsSafe(int value, int row, int column, Field fields[9][9])
+{
+    // Check if the column is safe
+    return !NumberOfEqualValuesInTheColumn(value, row, column, fields);
+}
+
+bool SudokuUtilities::QuadrantIsSafe(int value, int row, int column, Field fields[9][9])
+{
+    // Check if the quadrant is safe
+    return !NumberOfEqualValuesInTheQuadrant(value, row, column, fields);
+}
