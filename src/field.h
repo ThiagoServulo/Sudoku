@@ -15,6 +15,8 @@ public:
     bool IsFixed();
     void SetToInitial();
     void OvershadowField();
+    void BlockSignals();
+    void UnblockSignals();
 
 private:
     QLineEdit *lineEdit;

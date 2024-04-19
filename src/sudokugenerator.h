@@ -21,6 +21,7 @@ private:
     bool QuadrantIsSafe(int value, int row, int column, int board[9][9]);
     void ShuffleBoard(int board[9][9], std::mt19937& gen);
     void HideCells(int board[9][9]);
+    void PrintSudoku(int board[9][9]);
 };
 
 #endif // SUDOKUGENERATOR_H

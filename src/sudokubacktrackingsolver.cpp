@@ -32,7 +32,9 @@ void SudokuBacktrackingSolver::BacktrackingSolver(Field fields[9][9], int initia
                 if (IsSafe(number, row, column, fields))
                 {
                     // Set the value of the field
+                    fields[row][column].BlockSignals();
                     fields[row][column].SetValue(number);
+                    fields[row][column].UnblockSignals();
 
                     // Force GUI update
                     QCoreApplication::processEvents();

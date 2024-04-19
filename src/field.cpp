@@ -62,11 +62,11 @@ void Field::HighlightField()
 
 void Field::SetToFixed(int value)
 {
-    lineEdit->blockSignals(true);
+    BlockSignals();
     SetValue(value);
     lineEdit->setEnabled(false);
     OvershadowField();
-    lineEdit->blockSignals(false);
+    UnblockSignals();
 }
 
 bool Field::IsFixed()
@@ -89,4 +89,14 @@ void Field::OvershadowField()
 
     QString backgroundColor = QString("rgb(%1, %2, %3)").arg(colorRgb.red).arg(colorRgb.green).arg(colorRgb.blue);
     lineEdit->setStyleSheet(QString("QLineEdit { background-color: %1; }").arg(backgroundColor));
+}
+
+void Field::BlockSignals()
+{
+    lineEdit->blockSignals(true);
+}
+
+void Field::UnblockSignals()
+{
+    lineEdit->blockSignals(false);
 }

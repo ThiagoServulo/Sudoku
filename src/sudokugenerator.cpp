@@ -28,18 +28,8 @@ void SudokuGenerator::GenerateNewGame(int board[9][9])
         throw std::runtime_error("It was not possible to generate the Sudoku.");
     }
 
-    /*
     // Print sudoku generated
-    for(int i = 0; i < 9; i++)
-    {
-        QString line;
-        for(int j = 0; j < 9; j++)
-        {
-            line += QString::number(board[i][j]) + " ";
-        }
-        qDebug() << line;
-    }
-    */
+    //PrintSudoku(board);
 
     // Hide cells
     HideCells(board);
@@ -193,5 +183,19 @@ void SudokuGenerator::HideCells(int board[9][9])
 
         // Hide the cell by setting its value to 0
         board[row][col] = 0;
+    }
+}
+
+void SudokuGenerator::PrintSudoku(int board[9][9])
+{
+    // Print sudoku generated
+    for(int i = 0; i < 9; i++)
+    {
+        QString line;
+        for(int j = 0; j < 9; j++)
+        {
+            line += QString::number(board[i][j]) + " ";
+        }
+        qDebug() << line;
     }
 }
