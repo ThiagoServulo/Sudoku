@@ -1,4 +1,5 @@
 #include "sudokugenerator.h"
+#include "sudokuutilities.h"
 #include <stdexcept>
 
 SudokuGenerator::SudokuGenerator()
@@ -20,23 +21,27 @@ int SudokuGenerator::ChooseNumberFromTheSet(std::set<int>& numbers)
     return *it;
 }
 
-void SudokuGenerator::GenerateNewGame(int board[9][9])
+void SudokuGenerator::GenerateNewGame(Field fields[9][9])
 {
+    SudokuUtilities utilities;
+
     // Generate a valid Sudoku recursively
-    if (!GenerateSudoku(board, 0, 0))
+    if (!GenerateSudoku(fields, 0, 0))
     {
         throw std::runtime_error("It was not possible to generate the Sudoku.");
     }
 
     // Print sudoku generated
-    //PrintSudoku(board);
+    //utilities.PrintSudoku(fields);
 
     // Hide cells
-    HideCells(board);
+    HideCells(fields);
 }
 
-bool SudokuGenerator::GenerateSudoku(int board[9][9], int row, int col)
+bool SudokuGenerator::GenerateSudoku(Field fields[9][9], int row, int col)
 {
+    SudokuUtilities utilities;
+
     // If all rows have been filled, the Sudoku has been generated
     if (row == 9)
     {
@@ -46,36 +51,40 @@ bool SudokuGenerator::GenerateSudoku(int board[9][9], int row, int col)
     // If all columns are filled, move to the next row
     if (col == 9)
     {
-        return GenerateSudoku(board, row + 1, 0);
+        return GenerateSudoku(fields, row + 1, 0);
     }
 
     // If the cell is already filled, move to the next column
-    if (board[row][col] != 0)
+    if (fields[row][col].GetValue() != 0)
     {
-        return GenerateSudoku(board, row, col + 1);
+        return GenerateSudoku(fields, row, col + 1);
     }
 
     // Init set numbers
     std::set<int> numbers{1, 2, 3, 4, 5, 6, 7, 8, 9};
-    while(!numbers.empty())
+    while (!numbers.empty())
     {
         // Choose a random number
         int value = ChooseNumberFromTheSet(numbers);
 
         // Check if the number is valid
-        if(IsSafe(value, row, col, board))
+        if (utilities.IsSafe(value, row, col, fields))
         {
-            board[row][col] = value;
+            fields[row][col].BlockSignals();
+            fields[row][col].SetToFixed(value);
+            fields[row][col].UnblockSignals();
 
             // Check if the Sudoku has been generated
-            if (GenerateSudoku(board, row, col + 1))
+            if (GenerateSudoku(fields, row, col + 1))
             {
                 // If the recursion is successful, the Sudoku has been generated
                 return true;
             }
 
-            // Otherwise, try another number.
-            board[row][col] = 0;
+            //  Otherwise, try another number
+            fields[row][col].BlockSignals();
+            fields[row][col].SetValue(0);
+            fields[row][col].UnblockSignals();
         }
 
         // Remove the invalid number from the set
@@ -86,120 +95,7 @@ bool SudokuGenerator::GenerateSudoku(int board[9][9], int row, int col)
     return false;
 }
 
-/*
-bool SudokuGenerator::GenerateSudoku(Field fields[9][9], int row, int col)
-{
-    // Se todas as linhas foram preenchidas, o Sudoku foi gerado
-    if (row == 9) {
-        return true;
-    }
-
-    // Se todas as colunas estiverem preenchidas, passa para a próxima linha
-    if (col == 9) {
-        return GenerateSudoku(fields, row + 1, 0);
-    }
-
-    // Se a célula já estiver preenchida, passa para a próxima coluna
-    if (fields[row][col].GetValue() != 0) {
-        return GenerateSudoku(fields, row, col + 1);
-    }
-
-    // Inicializa conjunto de números
-    std::set<int> numbers{1, 2, 3, 4, 5, 6, 7, 8, 9};
-    while (!numbers.empty()) {
-        // Escolhe um número aleatório
-        int value = ChooseNumberFromTheSet(numbers);
-
-        // Verifica se o número é válido
-        if (IsSafe(value, row, col, fields)) {
-            fields[row][col].SetValue(value);
-
-            // Verifica se o Sudoku foi gerado
-            if (GenerateSudoku(fields, row, col + 1)) {
-                // Se a recursão for bem-sucedida, o Sudoku foi gerado
-                return true;
-            }
-
-            // Caso contrário, tenta outro número.
-            fields[row][col].SetValue(0);
-        }
-
-        // Remove o número inválido do conjunto
-        numbers.erase(value);
-    }
-
-    // Se nenhum número for válido, retorna falso
-    return false;
-}
-*/
-bool SudokuGenerator::IsSafe(int value, int row, int column, int board[9][9])
-{
-    // Check if the value is valid
-    return RowIsSafe(value, row, board) &&
-           ColumnIsSafe(value, column, board) &&
-           QuadrantIsSafe(value, row, column, board);
-}
-
-bool SudokuGenerator::RowIsSafe(int value, int row, int board[9][9])
-{
-    // Traverse through all columns
-    for (int col = 0; col < 9; ++col)
-    {
-        // Check if the values are equal
-        if (board[row][col] == value)
-        {
-            // This value cannot be used
-            return false;
-        }
-    }
-
-    // This value can be used
-    return true;
-}
-
-bool SudokuGenerator::ColumnIsSafe(int value, int column, int board[9][9])
-{
-    // Traverse through all rows
-    for (int row = 0; row < 9; ++row)
-    {
-        // Check if the values are equal
-        if (board[row][column] == value)
-        {
-            // Check if the values are equal
-            return false;
-        }
-    }
-
-    // This value can be used
-    return true;
-}
-
-bool SudokuGenerator::QuadrantIsSafe(int value, int row, int column, int board[9][9])
-{
-    // Init variables
-    int startRow = row - row % 3;
-    int startCol = column - column % 3;
-
-    // Traverse through all rows
-    for (int i = 0; i < 3; i++)
-    {
-        // Traverse through all columns
-        for (int j = 0; j < 3; j++)
-        {
-            // Check if the values are equal
-            if (board[i + startRow][j + startCol] == value)
-            {
-                // Check if the values are equal
-                return false;
-            }
-        }
-    }
-
-    // This value can be used
-    return true;
-}
-
-void SudokuGenerator::HideCells(int board[9][9])
+void SudokuGenerator::HideCells(Field fields[9][9])
 {
     // Initialize random number generator
     std::random_device rd;
@@ -228,20 +124,9 @@ void SudokuGenerator::HideCells(int board[9][9])
         int col = index % 9;
 
         // Hide the cell by setting its value to 0
-        board[row][col] = 0;
-    }
-}
-
-void SudokuGenerator::PrintSudoku(int board[9][9])
-{
-    // Print sudoku generated
-    for(int i = 0; i < 9; i++)
-    {
-        QString line;
-        for(int j = 0; j < 9; j++)
-        {
-            line += QString::number(board[i][j]) + " ";
-        }
-        qDebug() << line;
+        fields[row][col].BlockSignals();
+        fields[row][col].SetValue(0);
+        fields[row][col].SetToInitial();
+        fields[row][col].UnblockSignals();
     }
 }

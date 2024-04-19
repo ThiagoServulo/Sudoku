@@ -131,26 +131,7 @@ void Board::ConfigureNewGame()
     SudokuGenerator generator;
 
     // Generate new game
-    int board[9][9] = {0};
-    generator.GenerateNewGame(board);
-
-    // Board iterate
-    for(int i = 0; i < 9; i++)
-    {
-        for(int j = 0; j < 9; j++)
-        {
-            // Set board values
-            if(board[i][j] != 0)
-            {
-                fields[i][j].SetToFixed(board[i][j]);
-            }
-            else
-            {
-                fields[i][j].SetToInitial();
-            }
-        }
-    }
-
+    generator.GenerateNewGame(fields);
 }
 
 void Board::CheckBoardSameValues(int value, int row, int column)

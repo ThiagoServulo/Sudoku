@@ -149,3 +149,21 @@ bool SudokuUtilities::QuadrantIsSafe(int value, int row, int column, Field field
     // Check if the quadrant is safe
     return !NumberOfEqualValuesInTheQuadrant(value, row, column, fields);
 }
+
+void SudokuUtilities::PrintSudoku(Field fields[9][9])
+{
+    // Print sudoku generated
+    for(int i = 0; i < 9; i++)
+    {
+        QString line;
+
+        for(int j = 0; j < 9; j++)
+        {
+            // Build line
+            line += QString::number(fields[i][j].GetValue()) + " ";
+        }
+
+        // Print line
+        qDebug() << line;
+    }
+}

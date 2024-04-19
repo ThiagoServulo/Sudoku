@@ -16,6 +16,7 @@ public:
     bool RowIsSafe(int value, int row, int column, Field fields[9][9]);
     bool ColumnIsSafe(int value, int row, int column, Field fields[9][9]);
     bool QuadrantIsSafe(int value, int row, int column, Field fields[9][9]);
+    void PrintSudoku(Field fields[9][9]);
 };
 
 #endif // SUDOKUUTILITIES_H
