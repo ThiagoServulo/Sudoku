@@ -8,6 +8,7 @@ SudokuWindow::SudokuWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // Configure board fields
     board = Board(ui->lineEdit_A1, ui->lineEdit_A2, ui->lineEdit_A3, ui->lineEdit_A4, ui->lineEdit_A5, ui->lineEdit_A6,
                   ui->lineEdit_A7, ui->lineEdit_A8, ui->lineEdit_A9, ui->lineEdit_B1, ui->lineEdit_B2, ui->lineEdit_B3,
                   ui->lineEdit_B4, ui->lineEdit_B5, ui->lineEdit_B6, ui->lineEdit_B7, ui->lineEdit_B8, ui->lineEdit_B9,
