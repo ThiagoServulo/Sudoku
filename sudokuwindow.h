@@ -100,6 +100,7 @@ private slots:
     void on_lineEdit_I9_textChanged(const QString &arg1);
     void on_pushButtonSolveUsingBacktracking_clicked();
     void on_pushButtonNewGame_clicked();
+    void CheckBoard(int value, int row, int column);
 
 private:
     Ui::SudokuWindow *ui;

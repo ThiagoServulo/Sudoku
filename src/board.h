@@ -29,7 +29,7 @@ public:
           QLineEdit *line_edit_I1, QLineEdit *line_edit_I2, QLineEdit *line_edit_I3, QLineEdit *line_edit_I4,
           QLineEdit *line_edit_I5, QLineEdit *line_edit_I6, QLineEdit *line_edit_I7, QLineEdit *line_edit_I8,
           QLineEdit *line_edit_I9);
-    void CheckBoardSameValues(int value, int row, int column);
+    bool CheckBoardSameValues(int value, int row, int column);
     void SolveUsingBacktracking();
     void ConfigureNewGame();
 

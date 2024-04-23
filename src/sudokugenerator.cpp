@@ -23,7 +23,8 @@ int SudokuGenerator::ChooseNumberFromTheSet(std::set<int>& numbers)
 
 void SudokuGenerator::GenerateNewGame(Field fields[9][9])
 {
-    SudokuUtilities utilities;
+    // Clean board
+    CleanBoard(fields);
 
     // Generate a valid Sudoku recursively
     if (!GenerateSudoku(fields, 0, 0))
@@ -32,6 +33,7 @@ void SudokuGenerator::GenerateNewGame(Field fields[9][9])
     }
 
     // Print sudoku generated
+    //SudokuUtilities utilities;
     //utilities.PrintSudoku(fields);
 
     // Hide cells
@@ -128,5 +130,17 @@ void SudokuGenerator::HideCells(Field fields[9][9])
         fields[row][col].SetValue(0);
         fields[row][col].SetToInitial();
         fields[row][col].UnblockSignals();
+    }
+}
+
+void SudokuGenerator::CleanBoard(Field fields[9][9])
+{
+    for(int i = 0; i < 9; i++)
+    {
+        for(int j = 0; j < 9; j++)
+        {
+            // Clean fields
+            fields[i][j].SetToInitial();
+        }
     }
 }

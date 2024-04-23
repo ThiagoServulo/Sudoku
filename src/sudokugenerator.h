@@ -16,6 +16,7 @@ private:
     int ChooseNumberFromTheSet(std::set<int>& numbers);
     bool GenerateSudoku(Field fields[9][9], int row, int col);
     void HideCells(Field fields[9][9]);
+    void CleanBoard(Field fields[9][9]);
 };
 
 #endif // SUDOKUGENERATOR_H

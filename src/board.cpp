@@ -134,7 +134,7 @@ void Board::ConfigureNewGame()
     generator.GenerateNewGame(fields);
 }
 
-void Board::CheckBoardSameValues(int value, int row, int column)
+bool Board::CheckBoardSameValues(int value, int row, int column)
 {
     // Check if the valus is not zero
     if(value != 0)
@@ -173,12 +173,14 @@ void Board::CheckBoardSameValues(int value, int row, int column)
         {
             QMessageBox::information(nullptr, "Sudoku", "Generating a new game!");
             ConfigureNewGame();
+            return true;
         }
-        else
-        {
-            // fechar aplicação
-        }
+
+        // Close application
+        return false;
     }
+
+    return true;
 }
 
 void Board::CheckRowSameValues(int value, int row, int column)
