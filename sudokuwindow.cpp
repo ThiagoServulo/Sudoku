@@ -8,6 +8,13 @@ SudokuWindow::SudokuWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // Window layout
+    QIcon iconWindow;
+    iconWindow.addFile(":/imgs/images/sudoku.png");
+    this->setWindowIcon(iconWindow);
+    this->setWindowTitle("Sudoku");
+    this->setFixedSize(392, 431);
+
     // Configure board fields
     board = Board(ui->lineEdit_A1, ui->lineEdit_A2, ui->lineEdit_A3, ui->lineEdit_A4, ui->lineEdit_A5, ui->lineEdit_A6,
                   ui->lineEdit_A7, ui->lineEdit_A8, ui->lineEdit_A9, ui->lineEdit_B1, ui->lineEdit_B2, ui->lineEdit_B3,
@@ -442,15 +449,28 @@ void SudokuWindow::on_pushButtonSolveUsingBacktracking_clicked()
 
 void SudokuWindow::on_pushButtonNewGame_clicked()
 {
-    // Show message box
+    // Icon window
+    QIcon iconWindow;
+    iconWindow.addFile(":/imgs/images/sudoku.png");
+
+    // Init variables
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(nullptr, "Sudoku", "Do you want to start a new game??",
-                                    QMessageBox::Yes|QMessageBox::No);
+    QMessageBox msgBox;
+
+    // Show message box
+    msgBox.setWindowIcon(iconWindow);
+    msgBox.setWindowTitle("Sudoku");
+    reply = msgBox.question(nullptr, "Sudoku", "Do you want to start a new game?",
+                            QMessageBox::Yes|QMessageBox::No);
 
     // Check the answer
     if (reply == QMessageBox::Yes)
     {
-        QMessageBox::information(nullptr, "Sudoku", "Generating a new game!");
+        QMessageBox infoBox;
+        infoBox.setWindowIcon(iconWindow);
+        infoBox.setWindowTitle("Sudoku");
+        infoBox.setText("Generating a new game!");
+        infoBox.exec();
         board.ConfigureNewGame();
     }
 }
