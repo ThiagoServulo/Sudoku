@@ -38,6 +38,7 @@ private:
     void CheckRowSameValues(int value, int row, int column);
     void CheckColumnSameValues(int value, int row, int column);
     void CheckQuandantSameValues(int value, int row, int column);
+    void RestoreBoard();
 };
 
 #endif // BOARD_H

@@ -105,3 +105,11 @@ void Field::UnblockSignals()
 {
     lineEdit->blockSignals(false);
 }
+/*
+void Field::SetFixedColor()
+{
+    Color color;
+    Rgb colorRgb = lineEdit->isEnabled() ? color.GetInitialColor() : color.GetFixedColor();
+    QString backgroundColor = QString("rgb(%1, %2, %3)").arg(colorRgb.red).arg(colorRgb.green).arg(colorRgb.blue);
+    lineEdit->setStyleSheet(QString("QLineEdit { background-color: %1; }").arg(backgroundColor));
+}*/

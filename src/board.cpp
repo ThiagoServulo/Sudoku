@@ -303,6 +303,26 @@ void Board::SolveUsingBacktracking()
 {
     SudokuBacktrackingSolver solver;
 
+    // Restore board
+    RestoreBoard();
+
     // Solve sudoku using backtracking
     solver.BacktrackingSolver(fields, 0, 0);
+}
+
+void Board::RestoreBoard()
+{
+    for(int i = 0; i < 9; i++)
+    {
+        for(int j = 0; j < 9; j++)
+        {
+            fields[i][j].OvershadowField();
+
+            // Set value to zero
+            if(!fields[i][j].IsFixed())
+            {
+                fields[i][j].SetToInitial();
+            }
+        }
+    }
 }
