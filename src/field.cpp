@@ -39,8 +39,8 @@ void Field::ConfigureField()
 
 void Field::SetValue(int value)
 {
+    // Set value
     this->value = value;
-
     QString valueStr = (value == 0) ? "" : QString::number(value);
     lineEdit->setText(valueStr);
 }
@@ -62,10 +62,17 @@ void Field::HighlightField()
 
 void Field::SetToFixed(int value)
 {
+    // Block signals
     BlockSignals();
+
+    // Set value
     SetValue(value);
     lineEdit->setEnabled(false);
+
+    // Overshadow field
     OvershadowField();
+
+    // Unblock signals
     UnblockSignals();
 }
 
@@ -84,9 +91,7 @@ void Field::SetToInitial()
 void Field::OvershadowField()
 {
     Color color;
-    Rgb colorRgb = lineEdit->isEnabled() ? color.GetInitialColor() :
-                       color.GetFixedColor();
-
+    Rgb colorRgb = lineEdit->isEnabled() ? color.GetInitialColor() : color.GetFixedColor();
     QString backgroundColor = QString("rgb(%1, %2, %3)").arg(colorRgb.red).arg(colorRgb.green).arg(colorRgb.blue);
     lineEdit->setStyleSheet(QString("QLineEdit { background-color: %1; }").arg(backgroundColor));
 }

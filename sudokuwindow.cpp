@@ -466,17 +466,21 @@ void SudokuWindow::on_pushButtonNewGame_clicked()
     // Check the answer
     if (reply == QMessageBox::Yes)
     {
+        // Show information box window
         QMessageBox infoBox;
         infoBox.setWindowIcon(iconWindow);
         infoBox.setWindowTitle("Sudoku");
         infoBox.setText("Generating a new game!");
         infoBox.exec();
+
+        // Configure new game
         board.ConfigureNewGame();
     }
 }
 
 void SudokuWindow::CheckBoard(int value, int row, int column)
 {
+    // Check board same vales
     if(!board.CheckBoardSameValues(value, row, column))
     {
         this->close();

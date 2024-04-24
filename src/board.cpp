@@ -171,6 +171,7 @@ bool Board::CheckBoardSameValues(int value, int row, int column)
         // Check the answer
         if (reply == QMessageBox::Yes)
         {
+            // Show information box window
             QMessageBox::information(nullptr, "Sudoku", "Generating a new game!");
             ConfigureNewGame();
             return true;
