@@ -36,6 +36,8 @@ To start a new game, simply finish the current game, where the player can decide
 
 ![Board example](/images/board.png)
 
+![Board during game](/images/board_2.png)
+
 ---
 
 
